@@ -69,8 +69,8 @@ const main = async () => {
     console.log("Logging in...");
 
     const loginForm = new URLSearchParams();
-    loginForm.append("txtUserName", "AP24110010834");
-    loginForm.append("txtAuthKey", "Temp@1234");
+    loginForm.append("txtUserName", "/*Your Username*/");
+    loginForm.append("txtAuthKey", "/*Your Password*/");
     loginForm.append("ccode", ccode);
 
     const loginResponse = await fetch(
