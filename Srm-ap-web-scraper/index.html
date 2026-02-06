@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRM Portal Attendance Scraper</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h1>🎓 SRM Attendance Scraper</h1>
+                <p>Automatically fetch your attendance report</p>
+            </div>
+
+            <div id="formContainer" class="form-section">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Roll Number:</label>
+                        <input type="text" id="username" name="username" placeholder="e.g., AP2411xxxxxxx" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="btn btn-primary">
+                        <span id="btnText">Fetch Attendance</span>
+                        <span id="spinner" class="spinner" style="display: none;"></span>
+                    </button>
+                </form>
+            </div>
+
+            <div id="messageContainer" class="message-section" style="display: none;">
+                <div id="message" class="message"></div>
+            </div>
+
+            <div id="resultContainer" class="result-section" style="display: none;">
+                <div id="captchaInfo" class="captcha-info" style="display: none;">
+                    <p><strong>Captcha Status:</strong> <span id="captchaStatus">Processing...</span></p>
+                </div>
+
+                <div id="attendanceTable" class="table-container"></div>
+
+                <button id="downloadBtn" class="btn btn-secondary">
+                    📥 Download as JSON
+                </button>
+                <button id="resetBtn" class="btn btn-secondary">
+                    Log out
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
