@@ -7,7 +7,7 @@ import FormData from "form-data";
 
 const main = async () => {
   try {
-    console.log("Launching browser...");
+    
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
 
@@ -23,7 +23,7 @@ const main = async () => {
     if (!jsession) throw new Error("JSESSIONID not found");
 
     const jsessionValue = jsession.value;
-    console.log("JSESSIONID:", jsessionValue);
+   
 
     // =========================
     // STEP 2: Fetch captcha
@@ -45,21 +45,14 @@ const main = async () => {
     const captchaBuffer = await captchaResponse.buffer();
 
 
-    try {
-      const image = await terminalImage.buffer(captchaBuffer);
-      console.log(image);
-    } catch {
-      console.log("Captcha preview failed (terminal)");
-    }
-
-    console.log("Captcha fetched");
+  
 
     await browser.close();
 
     // =========================
     // STEP 3: Send captcha to ML model
     // =========================
-    console.log("Sending captcha to ML model...");
+    
 
     const formData = new FormData();
     formData.append("file", captchaBuffer, {
@@ -81,12 +74,12 @@ const main = async () => {
     }
 
     const ccode = (await captchaSolveResponse.text()).trim();
-    console.log("Solved captcha:", ccode);
+
 
     // =========================
     // STEP 4: Login
     // =========================
-    console.log("Logging in...");
+
 
     const loginForm = new URLSearchParams();
     loginForm.append("txtUserName", "AP2411xxxxxxx");
@@ -116,12 +109,12 @@ const main = async () => {
       throw new Error("Login failed (captcha or credentials)");
     }
 
-    console.log("Login successful");
+   
 
     // =========================
     // STEP 5: Fetch attendance
     // =========================
-    console.log("Fetching attendance report...");
+
 
     const reportForm = new URLSearchParams();
     reportForm.append("ids", "3");
@@ -141,12 +134,12 @@ const main = async () => {
     );
 
     const reportHtml = await reportResponse.text();
-    console.log("Attendance report fetched");
+    
 
     // =========================
     // STEP 6: Parse attendance
     // =========================
-    console.log("Extracting data...");
+
 
     const $ = cheerio.load(reportHtml);
     const rows = $("#tblSubjectWiseAttendance tr");
@@ -166,8 +159,7 @@ const main = async () => {
     }
 
 
-    console.log("\nAttendance Data:");
-    console.table(attendanceData);
+
 
 
   } catch (err) {

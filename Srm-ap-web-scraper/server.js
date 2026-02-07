@@ -30,7 +30,7 @@ app.post('/scrape', async (req, res) => {
     }
 
     try {
-        console.log(`[${new Date().toLocaleTimeString()}] Starting scrape for user: ${username}`);
+        .log(`[${new Date().toLocaleTimeString()}] Starting scrape for user: ${username}`);
 
         // =========================
         // STEP 1: Launch browser and get JSESSIONID
@@ -47,7 +47,7 @@ app.post('/scrape', async (req, res) => {
         if (!jsession) throw new Error('JSESSIONID not found');
 
         const jsessionValue = jsession.value;
-        console.log('[INFO] JSESSIONID obtained');
+        .log('[INFO] JSESSIONID obtained');
 
         // =========================
         // STEP 2: Fetch captcha
@@ -67,14 +67,14 @@ app.post('/scrape', async (req, res) => {
         });
 
         const captchaBuffer = await captchaResponse.buffer();
-        console.log('[INFO] Captcha fetched');
+        .log('[INFO] Captcha fetched');
 
         await browser.close();
 
         // =========================
         // STEP 3: Send captcha to ML model
         // =========================
-        console.log('[INFO] Sending captcha to ML model...');
+        .log('[INFO] Sending captcha to ML model...');
 
         const formData = new FormData();
         formData.append('file', captchaBuffer, {
@@ -96,12 +96,12 @@ app.post('/scrape', async (req, res) => {
         }
 
         const ccode = (await captchaSolveResponse.text()).trim();
-        console.log('[INFO] Captcha solved:', ccode);
+        
 
         // =========================
         // STEP 4: Login
         // =========================
-        console.log('[INFO] Attempting login...');
+        
 
         const loginForm = new URLSearchParams();
         loginForm.append('txtUserName', username);
@@ -131,12 +131,12 @@ app.post('/scrape', async (req, res) => {
             throw new Error('Login failed - Invalid captcha or credentials');
         }
 
-        console.log('[INFO] Login successful');
+    
 
         // =========================
         // STEP 5: Fetch attendance
         // =========================
-        console.log('[INFO] Fetching attendance report...');
+
 
         const reportForm = new URLSearchParams();
         reportForm.append('ids', '3');
@@ -156,12 +156,12 @@ app.post('/scrape', async (req, res) => {
         );
 
         const reportHtml = await reportResponse.text();
-        console.log('[INFO] Attendance report fetched');
+       
 
         // =========================
         // STEP 6: Parse attendance
         // =========================
-        console.log('[INFO] Parsing attendance data...');
+        
 
         const $ = cheerio.load(reportHtml);
         const rows = $('#tblSubjectWiseAttendance tr');
@@ -180,7 +180,7 @@ app.post('/scrape', async (req, res) => {
             }
         }
 
-        console.log(`[✓] Successfully fetched ${attendanceData.length} subjects`);
+
 
         // Return success response
         res.json({
