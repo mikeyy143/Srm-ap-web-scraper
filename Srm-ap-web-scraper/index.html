@@ -12,8 +12,13 @@
     <div class="container">
         <div class="card">
             <div class="header">
-                <h1>🎓 SRM Attendance Scraper</h1>
-                <p>Automatically fetch your attendance report</p>
+                <div>
+                    <h1 id="headerTitle">🎓 SRM Attendance Scraper</h1>
+                    <p id="headerSubtitle">Automatically fetch your attendance report</p>
+                </div>
+                <div class="header-right">
+                    <button id="resetBtn" class="header-logout">Log Out</button>
+                </div>
             </div>
 
             <div id="formContainer" class="form-section">
@@ -40,18 +45,9 @@
             </div>
 
             <div id="resultContainer" class="result-section" style="display: none;">
-                <div id="captchaInfo" class="captcha-info" style="display: none;">
-                    <p><strong>Captcha Status:</strong> <span id="captchaStatus">Processing...</span></p>
-                </div>
+                <!-- Captcha status removed -->
 
                 <div id="attendanceTable" class="table-container"></div>
-
-                <button id="downloadBtn" class="btn btn-secondary">
-                    📥 Download as JSON
-                </button>
-                <button id="resetBtn" class="btn btn-secondary">
-                    Log out
-                </button>
             </div>
         </div>
     </div>

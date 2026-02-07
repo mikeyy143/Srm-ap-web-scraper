@@ -34,81 +34,64 @@ const calculateAttendanceMetrics = (present, absent, od) => {
     }
 };
 
-export default function AttendanceTable({ data, captchaInfo }) {
+export default function AttendanceTable({ data }) {
     if (!data || data.length === 0) {
-        return <p>No attendance data found.</p>;
+        return <p className="text-center text-muted-foreground">No attendance data found.</p>;
     }
 
     return (
-        <>
-            {captchaInfo && (
-                <div className="captcha-info">
-                    <p>
-                        <strong>Captcha Status:</strong> {captchaInfo}
-                    </p>
-                </div>
-            )}
+        <div className="w-full px-6 py-6">
+            {/* captcha status removed */}
 
-            <div className="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Subject Code</th>
-                            <th>Subject Name</th>
-                            <th>Present</th>
-                            <th>Absent</th>
-                            <th>OD/Medical</th>
-                            <th>Attendance %</th>
-                            <th>Bunks</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.map((item, index) => {
-                            const metrics = calculateAttendanceMetrics(
-                                item.present,
-                                item.absent,
-                                item.od || 0
-                            );
+            <h2 className="text-lg font-semibold mb-4">Subject-wise Attendance</h2>
 
-                            const attendanceColor =
-                                metrics.percentage < 75
-                                    ? '#dc3545'
-                                    : metrics.percentage < 85
-                                        ? '#ff9800'
-                                        : '#28a745';
+            <div className="space-y-4">
+                {data.map((item, index) => {
+                    const metrics = calculateAttendanceMetrics(item.present, item.absent, item.od || 0);
 
-                            return (
-                                <tr key={index}>
-                                    <td>{item.subjectCode}</td>
-                                    <td>{item.subjectName}</td>
-                                    <td>{item.present}</td>
-                                    <td>{item.absent}</td>
-                                    <td>{item.od || 0}</td>
-                                    <td
-                                        style={{
-                                            color: attendanceColor,
-                                            fontWeight: 'bold',
-                                        }}
-                                    >
-                                        {metrics.percentage.toFixed(2)}%
-                                    </td>
-                                    <td
-                                        style={{
-                                            fontWeight: 'bold',
-                                            color:
-                                                metrics.status === 'low'
-                                                    ? '#dc3545'
-                                                    : '#28a745',
-                                        }}
-                                    >
-                                        {metrics.message}
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                    return (
+                        <div key={index} className="bg-card border border-border rounded-lg p-4 shadow-sm">
+                            <div className="flex justify-between items-start mb-2">
+                                <div>
+                                    <h3 className="font-medium">{item.subjectName}</h3>
+                                    <p className="text-xs text-muted-foreground">{item.subjectCode}</p>
+                                </div>
+
+                                <span className={`text-2xl font-bold ${metrics.percentage >= 75 ? 'text-green-500' : metrics.percentage >= 60 ? 'text-yellow-500' : 'text-red-500'
+                                    }`}>
+                                    {metrics.percentage.toFixed(2)}%
+                                </span>
+                            </div>
+
+                            <div className="w-full bg-muted rounded-full h-2 mb-3">
+                                <div
+                                    className={`h-2 rounded-full ${metrics.percentage >= 75 ? 'bg-green-500' : metrics.percentage >= 60 ? 'bg-yellow-500' : 'bg-red-500'
+                                        }`}
+                                    style={{ width: `${Math.min(100, Math.max(0, metrics.percentage))}%` }}
+                                />
+                            </div>
+
+                            <div className="flex flex-wrap gap-6 text-sm text-muted-foreground">
+                                <span>
+                                    <strong className="text-green-500">{item.present}</strong> Present
+                                </span>
+                                <span>
+                                    <strong className="text-red-500">{item.absent}</strong> Absent
+                                </span>
+                                <span>
+                                    <strong>{(parseInt(item.present) || 0) + (parseInt(item.absent) || 0) + (parseInt(item.od) || 0)}</strong> Total
+                                </span>
+                            </div>
+
+                            <p className={`mt-2 text-sm font-medium ${metrics.status === 'low' ? 'text-red-500' : 'text-green-500'}`}>
+                                {metrics.message}
+                            </p>
+                        </div>
+                    );
+                })}
             </div>
-        </>
+
+            {/* Overall attendance removed per request */}
+        </div>
     );
 }

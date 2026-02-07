@@ -1,10 +1,20 @@
 'use client';
 
-export default function Header() {
+export default function Header({ username, onLogout }) {
     return (
         <div className="header">
-            <h1>🎓 SRM Attendance Scraper</h1>
-            <p>Automatically fetch your attendance report</p>
+            <div>
+                <h1>{username ? `Welcome, ${username}` : '🎓 SRM Attendance Scraper'}</h1>
+                {!username && <p>Automatically fetch your attendance report</p>}
+            </div>
+
+            <div className="header-right">
+                {username && (
+                    <button className="header-logout" onClick={onLogout}>
+                        Log Out
+                    </button>
+                )}
+            </div>
         </div>
     );
 }

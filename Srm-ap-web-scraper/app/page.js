@@ -12,12 +12,13 @@ export default function Home() {
     const [messageType, setMessageType] = useState('info');
     const [showMessage, setShowMessage] = useState(false);
     const [attendanceData, setAttendanceData] = useState(null);
-    const [captchaInfo, setCaptchaInfo] = useState('');
+    const [username, setUsername] = useState('');
     const [showForm, setShowForm] = useState(true);
 
     const handleSubmit = async (credentials) => {
         setIsLoading(true);
         setShowMessage(false);
+        setUsername(credentials.username || '');
 
         try {
             const response = await fetch('/api/scrape', {
@@ -37,11 +38,8 @@ export default function Home() {
 
             // Success
             setAttendanceData(result.attendanceData);
-            setCaptchaInfo(result.captchaInfo || 'Solved successfully');
             setShowForm(false);
-            showSuccessMessage(
-                `✓ Successfully fetched attendance for ${result.attendanceData.length} subjects!`
-            );
+            showSuccessMessage(`✓ Successfully fetched attendance for ${result.attendanceData.length} subjects!`);
         } catch (error) {
             console.error('Error:', error);
             showErrorMessage('Network error: ' + error.message);
@@ -50,24 +48,11 @@ export default function Home() {
         }
     };
 
-    const handleDownload = () => {
-        if (!attendanceData) return;
-
-        const dataStr = JSON.stringify(attendanceData, null, 2);
-        const dataBlob = new Blob([dataStr], { type: 'application/json' });
-        const url = URL.createObjectURL(dataBlob);
-
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `attendance_${new Date().toISOString().split('T')[0]}.json`;
-        link.click();
-
-        URL.revokeObjectURL(url);
-    };
+    // Download handler removed per request
 
     const handleReset = () => {
         setAttendanceData(null);
-        setCaptchaInfo('');
+        setUsername('');
         setShowForm(true);
         setShowMessage(false);
     };
@@ -85,22 +70,19 @@ export default function Home() {
     };
 
     return (
-        <div className="container">
+        <div className={`container ${!showForm ? 'full-screen' : ''}`}>
             <div className="card">
-                <Header />
+                <Header username={username} onLogout={handleReset} />
 
                 {showForm ? (
                     <LoginForm onSubmit={handleSubmit} isLoading={isLoading} />
                 ) : (
                     <div className="result-section">
-                        <AttendanceTable data={attendanceData} captchaInfo={captchaInfo} />
+                        <AttendanceTable data={attendanceData} />
 
                         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                            <button onClick={handleDownload} className="btn btn-secondary">
-                                📥 Download as JSON
-                            </button>
                             <button onClick={handleReset} className="btn btn-secondary">
-                               Log Out
+                                Log Out
                             </button>
                         </div>
                     </div>
