@@ -30,7 +30,7 @@ app.post('/scrape', async (req, res) => {
     }
 
     try {
-        .log(`[${new Date().toLocaleTimeString()}] Starting scrape for user: ${username}`);
+       
 
         // =========================
         // STEP 1: Launch browser and get JSESSIONID
@@ -47,7 +47,7 @@ app.post('/scrape', async (req, res) => {
         if (!jsession) throw new Error('JSESSIONID not found');
 
         const jsessionValue = jsession.value;
-        .log('[INFO] JSESSIONID obtained');
+      
 
         // =========================
         // STEP 2: Fetch captcha
@@ -67,14 +67,14 @@ app.post('/scrape', async (req, res) => {
         });
 
         const captchaBuffer = await captchaResponse.buffer();
-        .log('[INFO] Captcha fetched');
+       
 
         await browser.close();
 
         // =========================
         // STEP 3: Send captcha to ML model
         // =========================
-        .log('[INFO] Sending captcha to ML model...');
+
 
         const formData = new FormData();
         formData.append('file', captchaBuffer, {
