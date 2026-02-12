@@ -4,13 +4,10 @@ A modern Next.js web application for fetching SRM student portal attendance with
 
 ## ✨ Features
 
-- ⚛️ **Next.js 15** - Fast React-based framework with server-side rendering
 - 🔑 **Automated Login** - Secure credential handling with automatic session management
 - 🤖 **Smart Captcha Solving** - ML-powered CRNN model via Python FastAPI
-- 📊 **Attendance Analysis** - Color-coded table with 75% threshold calculations
-- 💾 **Export Data** - Download attendance as JSON for further analysis
-- 🎨 **Responsive UI** - Clean, modern interface with gradient backgrounds
-- ⚡ **Fast API Routes** - Server-side scraping with Next.js
+
+
 
 **Request:**
 ```json
