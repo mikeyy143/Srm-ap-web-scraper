@@ -41,7 +41,7 @@ export default function AttendanceTable({ data }) {
 
     return (
         <div className="w-full px-6 py-6">
-            {/* captcha status removed */}
+           
 
             <h2 className="text-lg font-semibold mb-4">Subject-wise Attendance</h2>
 
@@ -91,7 +91,7 @@ export default function AttendanceTable({ data }) {
                 })}
             </div>
 
-            {/* Overall attendance removed per request */}
+           
         </div>
     );
 }
