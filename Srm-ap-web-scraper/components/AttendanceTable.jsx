@@ -57,7 +57,6 @@ export default function AttendanceDashboard({ data }) {
 
     return (
         <div className="w-full px-6 py-6">
-            {/* captcha status removed */}
 
             <h2 className="text-lg font-semibold mb-4">Subject-wise Attendance</h2>
 
@@ -70,7 +69,7 @@ export default function AttendanceDashboard({ data }) {
                             key={index}
                             className="bg-card border border-border rounded-lg p-4 shadow-sm"
                         >
-                            {/* Header */}
+                          
                             <div className="flex justify-between items-start mb-2">
                                 <div>
                                     <h3 className="font-medium">{item.subjectName}</h3>
@@ -88,7 +87,6 @@ export default function AttendanceDashboard({ data }) {
                                 </span>
                             </div>
 
-                            {/* Progress Bar */}
                             <div className="w-full bg-muted rounded-full h-2 mb-3">
                                 <div
                                     className={`h-2 rounded-full ${getProgressColor(
@@ -98,7 +96,7 @@ export default function AttendanceDashboard({ data }) {
                                 />
                             </div>
 
-                            {/* Stats */}
+                    
                             <div className="flex flex-wrap gap-6 text-sm text-muted-foreground">
                                 <span>
                                     <strong className="text-green-500">{item.present}</strong> Present
@@ -111,7 +109,7 @@ export default function AttendanceDashboard({ data }) {
                                 </span>
                             </div>
 
-                            {/* Bunk / Must Attend */}
+                          
                             <p
                                 className={`mt-2 text-sm font-medium ${metrics.status === 'low'
                                     ? 'text-red-500'
@@ -125,7 +123,7 @@ export default function AttendanceDashboard({ data }) {
                 })}
             </div>
 
-            {/* Overall attendance removed */}
+      
         </div>
     );
 }
